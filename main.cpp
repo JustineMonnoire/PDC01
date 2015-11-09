@@ -4,12 +4,14 @@
 #include <dirent.h>
 #include<string>
 #include "parser.h"
+#include "avlTreePosting.hpp"
 #include<boost/tokenizer.hpp>
 
 using namespace std;
 
 int main( int argc, const char* argv[] )
 {
+	avlTreePosting avl;
     Parser parser;
 	DIR *rep;
 	string dossier="Fichiers";
@@ -33,6 +35,7 @@ int main( int argc, const char* argv[] )
 					}
 					previousDocId = tok.docId;
 					cout << "token : docId " << tok.docId << " - word " << tok.word << endl;
+					avl.root = avl.insert(avl.root, &tok.word,  &tok.docId);
 					tok = parser.getNextToken();
 				}
 			} else {
@@ -42,5 +45,8 @@ int main( int argc, const char* argv[] )
 	}
 	cout << "press enter" <<endl;
 	getchar();
+	cout << "avl to file ..." <<endl;
+	avl.inorder(avl.root);
+	
 	return 0;
 }

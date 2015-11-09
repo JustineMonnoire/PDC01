@@ -5,46 +5,14 @@
     #include<string>
     #include<vector>
     #include<fstream>
-
+	#include "avlTreePosting.hpp"
+	
     #define pow2(n) (1 << (n))
 
 
     using namespace std;
 
-
-
-    /*
-
-     * Declaration des postings
-
-    */
-    struct posting
-    {
-        int doCID;
-
-        int frequency;
-    };
-
     typedef vector<struct posting> *pPosting ;
-
-
-
-    /*
-     * Declaration des noeuds
-     */
-
-    struct avl_node
-    {
-            string data;
-
-            int docID;
-
-            pPosting pointer;
-
-            struct avl_node *left;
-
-            struct avl_node *right;
-    }*root;
 
     /*
 
@@ -52,7 +20,7 @@
 
      */
 
-    class avlTree
+    class avlTreePosting
 
     {
 
@@ -78,7 +46,7 @@
 
             void inorder(avl_node *);
 
-            avlTree()
+            avlTreePosting()
 
             {
 
@@ -108,7 +76,7 @@
 
         int *pdocIDDD;
 
-        avlTree avl;
+        avlTreePosting avl;
 
         fstream file;
 
@@ -210,7 +178,7 @@
 
      */
 
-    int avlTree::height(avl_node *temp)
+    int avlTreePosting::height(avl_node *temp)
 
     {
 
@@ -240,7 +208,7 @@
 
      */
 
-    int avlTree::diff(avl_node *temp)
+    int avlTreePosting::diff(avl_node *temp)
 
     {
 
@@ -260,7 +228,7 @@
 
      */
 
-    avl_node *avlTree::rr_rotation(avl_node *parent)
+    avl_node *avlTreePosting::rr_rotation(avl_node *parent)
 
     {
 
@@ -282,7 +250,7 @@
 
      */
 
-    avl_node *avlTree::ll_rotation(avl_node *parent)
+    avl_node *avlTreePosting::ll_rotation(avl_node *parent)
 
     {
 
@@ -304,7 +272,7 @@
 
      */
 
-    avl_node *avlTree::lr_rotation(avl_node *parent)
+    avl_node *avlTreePosting::lr_rotation(avl_node *parent)
 
     {
 
@@ -324,7 +292,7 @@
 
      */
 
-    avl_node *avlTree::rl_rotation(avl_node *parent)
+    avl_node *avlTreePosting::rl_rotation(avl_node *parent)
 
     {
 
@@ -344,7 +312,7 @@
 
      */
 
-    avl_node *avlTree::balance(avl_node *temp)
+    avl_node *avlTreePosting::balance(avl_node *temp)
 
     {
 
@@ -388,7 +356,7 @@
 
      */
 
-    avl_node *avlTree::insert(avl_node *root, string *donne, int *docIDD)
+    avl_node *avlTreePosting::insert(avl_node *root, string *donne, int *docIDD)
 
     {
 
@@ -510,7 +478,7 @@
 
      */
 
-    void avlTree::display(avl_node *ptr, int level)
+    void avlTreePosting::display(avl_node *ptr, int level)
 
     {
 
@@ -555,7 +523,7 @@
 
      */
 
-    void avlTree::inorder(avl_node *tree)
+    void avlTreePosting::inorder(avl_node *tree)
 
     {
 
