@@ -12,7 +12,6 @@
 
     using namespace std;
 
-    typedef vector<struct posting> *pPosting ;
 
     /*
 
@@ -20,41 +19,7 @@
 
      */
 
-    class avlTreePosting
-
-    {
-
-        public:
-
-            int height(avl_node *);
-
-            int diff(avl_node *);
-
-            avl_node *rr_rotation(avl_node *);
-
-            avl_node *ll_rotation(avl_node *);
-
-            avl_node *lr_rotation(avl_node *);
-
-            avl_node *rl_rotation(avl_node *);
-
-            avl_node* balance(avl_node *);
-
-            avl_node* insert(avl_node *, string *donne, int *docIDD);
-
-            void display(avl_node *, int);
-
-            void inorder(avl_node *);
-
-            avlTreePosting()
-
-            {
-
-                root = NULL;
-
-            }
-
-    };
+    
 
     /*
 
@@ -62,115 +27,8 @@
 
      */
 
-    int main()
-
-    {
-
-        int choice;
-
-        string item="";
-
-        string *pitem;
-
-        int docIDDD;
-
-        int *pdocIDDD;
-
-        avlTreePosting avl;
-
-        fstream file;
-
-        while (1)
-
-        {
-
-            cout << "\n---------------------" << endl;
-
-            cout << "CONSTRUCTION DE L'INDEXE INVERSE AVEC POSTING LIST" << endl;
-
-            cout << "\n---------------------" << endl;
-
-            cout << "1.Inserer un token dans l'arbre" << endl;
-
-            cout << "2.Afficher l'arbre des tokens equilibree" << endl;
-
-            cout << "3.Ecriture dans un fichier sous forme formatée" << endl;
-
-            cout << "4.Quitter" << endl;
-
-            cout << "Entrez votre choix : ";
-
-            cin >> choice;
-
-            switch (choice)
-
-            {
-
-                case 1:
-
-                    cout << "Entez le vocabulaire :\n";
-
-                    //getline(cin,item);
-
-                    cin >> item;
-
-                    pitem = &item;
-
-                    cout << "Entez le docID : \n";
-
-                    cin >> docIDDD;
-
-                    pdocIDDD = &docIDDD;
-
-                    root = avl.insert(root, pitem, pdocIDDD);
-
-                    break;
-
-                case 2:
-
-                    if (root == NULL)
-
-                    {
-
-                        cout << "Arbre Vide !" << endl;
-
-                        continue;
-
-                    }
-
-                    cout << "Arbre AVL equilibree" << endl;
-
-                    avl.display(root, 1);
-
-                    break;
-
-                case 3:
-
-                    cout << "Affichege dans l'ordre :" << endl;
-
-                    avl.inorder(root);
-
-                    cout << endl;
-
-                    break;
-
-                case 4:
-
-                    exit(1);
-
-                    break;
-
-                default:
-
-                    cout << "Mauvais Choix" << endl;
-
-            }
-
-        }
-
-        return 0;
-
-    }
+    
+   
 
     /*
 
@@ -178,7 +36,7 @@
 
      */
 
-    int avlTreePosting::height(avl_node *temp)
+    int avlTreePosting::height(avlTreePosting::avl_node *temp)
 
     {
 
@@ -208,7 +66,7 @@
 
      */
 
-    int avlTreePosting::diff(avl_node *temp)
+    int avlTreePosting::diff(avlTreePosting::avl_node *temp)
 
     {
 
@@ -228,11 +86,11 @@
 
      */
 
-    avl_node *avlTreePosting::rr_rotation(avl_node *parent)
+    avlTreePosting::avl_node *avlTreePosting::rr_rotation(avlTreePosting::avl_node *parent)
 
     {
 
-        avl_node *temp;
+        avlTreePosting::avl_node *temp;
 
         temp = parent->right;
 
@@ -250,11 +108,11 @@
 
      */
 
-    avl_node *avlTreePosting::ll_rotation(avl_node *parent)
+    avlTreePosting::avl_node *avlTreePosting::ll_rotation(avlTreePosting::avl_node *parent)
 
     {
 
-        avl_node *temp;
+        avlTreePosting::avl_node *temp;
 
         temp = parent->left;
 
@@ -272,11 +130,11 @@
 
      */
 
-    avl_node *avlTreePosting::lr_rotation(avl_node *parent)
+    avlTreePosting::avl_node *avlTreePosting::lr_rotation(avlTreePosting::avl_node *parent)
 
     {
 
-        avl_node *temp;
+        avlTreePosting::avl_node *temp;
 
         temp = parent->left;
 
@@ -292,11 +150,11 @@
 
      */
 
-    avl_node *avlTreePosting::rl_rotation(avl_node *parent)
+    avlTreePosting::avl_node *avlTreePosting::rl_rotation(avlTreePosting::avl_node *parent)
 
     {
 
-        avl_node *temp;
+        avlTreePosting::avl_node *temp;
 
         temp = parent->right;
 
@@ -312,7 +170,7 @@
 
      */
 
-    avl_node *avlTreePosting::balance(avl_node *temp)
+    avlTreePosting::avl_node *avlTreePosting::balance(avlTreePosting::avl_node *temp)
 
     {
 
@@ -356,7 +214,7 @@
 
      */
 
-    avl_node *avlTreePosting::insert(avl_node *root, string *donne, int *docIDD)
+    avlTreePosting::avl_node *avlTreePosting::insert(avlTreePosting::avl_node *root, string *donne, int *docIDD)
 
     {
 
@@ -380,7 +238,7 @@
 
         {
 
-            root = new avl_node;
+            root = new avlTreePosting::avl_node;
 
             root->data.assign(*donne);
 
@@ -478,7 +336,7 @@
 
      */
 
-    void avlTreePosting::display(avl_node *ptr, int level)
+    void avlTreePosting::display(avlTreePosting::avl_node *ptr, int level)
 
     {
 
@@ -523,7 +381,7 @@
 
      */
 
-    void avlTreePosting::inorder(avl_node *tree)
+    void avlTreePosting::inorder(avlTreePosting::avl_node *tree)
 
     {
 

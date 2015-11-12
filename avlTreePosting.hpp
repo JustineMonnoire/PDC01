@@ -6,6 +6,9 @@
 #include<vector>
 #include<fstream>
 
+#ifndef __AVLTREEPOSTING_H_INCLUDED__
+#define __AVLTREEPOSTING_H_INCLUDED__
+
 class avlTreePosting
 
     {
@@ -55,8 +58,8 @@ class avlTreePosting
 
             avl_node* balance(avl_node *);
 
-            avl_node* insert(avl_node *, std::string *donne, int *docIDD);
-
+            avl_node* insert(avl_node *root, std::string *donne, int *docIDD);
+			
             void display(avl_node *, int);
 
             void inorder(avl_node *);
@@ -70,3 +73,5 @@ class avlTreePosting
 			
 
     };
+	
+#endif 
