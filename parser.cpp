@@ -53,6 +53,7 @@ int Parser::openFile(string filename) {
 				newDocStruct.text += ligne;
             }
         }
+		docs.push_back(newDocStruct); //add the last doc
         fichier.close(); // on ferme le fichier
 		
 		if(!docs.empty()){
@@ -74,16 +75,15 @@ Parser::Token Parser::getNextToken(){
     if(docs.empty()) {
 		throw -1;
 	}
-	
 	Parser::Token tok;
 	if(tokIterator != tokenizer.end()){
 		tok.word = *tokIterator;
 		++tokIterator;
 	}else{
 		//the current doc is fully read
-		if(docsIt != docs.end()){
+		if(++docsIt != docs.end()){
 			//there is still docs to read, go to next one and parse its text
-			tokenizer = boost::tokenizer<>((*(++docsIt)).text);
+			tokenizer = boost::tokenizer<>(docsIt->text);
 			tokIterator= tokenizer.begin();
 			tok.word = *tokIterator;
 			++tokIterator;
@@ -92,6 +92,6 @@ Parser::Token Parser::getNextToken(){
 			return Parser::Token{-1, ""};
 		}
 	}
-	tok.docId = (*docsIt).docId;
+	tok.docId = docsIt->docId;
 	return tok;
 }
