@@ -219,115 +219,113 @@
     {
 
         struct posting nouvelle ;
-
+		int *p;
         vector<struct posting>::iterator it;
+		try {	
+			p = new(nothrow) int[2024];
 
-        int *p = new(nothrow) int[2024];
+		} catch (std::bad_alloc&) {
+			cout<<"failed, not enough memory"<<endl;
+			throw;
+		}
 
-        if( p == 0 )
-        {
-            cout<<"failed, not enough memory, Wrinting in the file. please change the file name"<<endl;
-        }
+   
+			delete[] p;
 
-        else
+			if (root == NULL)
 
-        {
+			{
 
+				root = new avlTreePosting::avl_node;
 
-        if (root == NULL)
+				root->data.assign(*donne);
 
-        {
+				root->docID = *docIDD;
 
-            root = new avlTreePosting::avl_node;
+				root->pointer = new vector<struct posting>(1);
 
-            root->data.assign(*donne);
+				(root->pointer)->at(0).doCID = (*docIDD) ;
 
-            root->docID = *docIDD;
+				(root->pointer)->at(0).frequency = 1;
 
-            root->pointer = new vector<struct posting>(1);
+				root->left = NULL;
 
-            (root->pointer)->at(0).doCID = (*docIDD) ;
+				root->right = NULL;
 
-            (root->pointer)->at(0).frequency = 1;
+				return root;
 
-            root->left = NULL;
+			}
 
-            root->right = NULL;
+			else if((*donne).compare(root->data) == 0)
+			{
 
-            return root;
+				   int i = 1 ;
 
-        }
+				   it = (root->pointer)->begin();
 
-        else if((*donne).compare(root->data) == 0)
-        {
+				   if( (*docIDD) == root->docID)
+				   {
 
-               int i = 1 ;
+						(root->pointer)->at(0).frequency = ((root->pointer)->at(0).frequency) + 1;
 
-               it = (root->pointer)->begin();
+				   }
 
-               if( (*docIDD) == root->docID)
-               {
-
-                    (root->pointer)->at(0).frequency = ((root->pointer)->at(0).frequency) + 1;
-
-               }
-
-               else
-               {
+				   else
+				   {
 
 
-                    while((it->doCID != (*docIDD)) && ( it != (root->pointer)->end() ))
-                    {
+						while((it->doCID != (*docIDD)) && ( it != (root->pointer)->end() ))
+						{
 
-                        it++;
+							it++;
 
-                    }
+						}
 
-                    if ( it == (root->pointer)->end())
-                    {
+						if ( it == (root->pointer)->end())
+						{
 
-                        nouvelle.doCID = (*docIDD);
+							nouvelle.doCID = (*docIDD);
 
-                        nouvelle.frequency = 1;
+							nouvelle.frequency = 1;
 
-                        (root->pointer)->push_back(nouvelle);
+							(root->pointer)->push_back(nouvelle);
 
-                    }
+						}
 
-                    else if ((it->doCID == (*docIDD)) && ( it != (root->pointer)->end() ) )
-                    {
+						else if ((it->doCID == (*docIDD)) && ( it != (root->pointer)->end() ) )
+						{
 
-                         it->frequency = it->frequency + 1 ;
+							 it->frequency = it->frequency + 1 ;
 
-                    }
+						}
 
-                }
+					}
 
-        }
+			}
 
-        else if ((*donne).compare(root->data) < 0)
+			else if ((*donne).compare(root->data) < 0)
 
-        {
+			{
 
-            root->left = insert(root->left, donne, docIDD);
+				root->left = insert(root->left, donne, docIDD);
 
-            root = balance(root);
+				root = balance(root);
 
-        }
+			}
 
-        else if ((*donne).compare(root->data) > 0)
+			else if ((*donne).compare(root->data) > 0)
 
-        {
+			{
 
-            root->right = insert(root->right, donne, docIDD);
+				root->right = insert(root->right, donne, docIDD);
 
-            root = balance(root);
+				root = balance(root);
 
-        }
+			}
 
-        return root;
+			return root;
 
-    }
+		
     }
 
     /*
@@ -381,7 +379,7 @@
 
      */
 
-    void avlTreePosting::inorder(avlTreePosting::avl_node *tree)
+    void avlTreePosting::inorder(avlTreePosting::avl_node *tree, string filename)
 
     {
 
@@ -389,11 +387,11 @@
 
             return;
 
-        inorder(tree->left);
+        inorder(tree->left, filename);
 
         fstream file;
 
-        file.open("file.txt", ios :: out | ios :: app);
+        file.open(filename, ios :: out | ios :: app);
 
         if (file.fail())
         {
@@ -421,7 +419,7 @@
 
             }
 
-            inorder(tree->right);
+            inorder(tree->right, filename);
 
         }
 

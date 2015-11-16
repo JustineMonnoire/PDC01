@@ -62,7 +62,7 @@ class avlTreePosting
 			
             void display(avl_node *, int);
 
-            void inorder(avl_node *);
+            void inorder(avl_node *, std::string filename);
 
             avlTreePosting()
 
