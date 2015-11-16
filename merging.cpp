@@ -1,17 +1,16 @@
 #include<iostream>
-
 #include<fstream>
 #include<string>
 #include<cstddef>
 
 using namespace std;
-
+string getPosting(string);
 string getVocab(string);
-
 void merge(string, string);
 
 int main()
 {
+
 
     string in1, in2;
     cout<<"donnez le nom du premier fichier"<<endl;
@@ -22,9 +21,20 @@ int main()
 
     return 0;
 
+
 }
+string getPosting(string line)
+{
+    int i= 0;
+    while( line[i]!= ';' && i<line.size())
+    {
+        i++;
+    }
 
 
+
+    return line.substr(i+1);
+}
 string getVocab(string line)
 {
     int i= 0;
@@ -38,70 +48,87 @@ string getVocab(string line)
     return line.substr(0,i);
 
 }
-
 void merge(string inFile1, string inFile2)
 {
 
-    string line1, line2, vocab1, vocab2;
 
-    ifstream f1(inFile1.c_str());
-    ifstream f2(inFile2.c_str());
-    fstream f3;
-    f3.open("mergedFile2.txt", ios :: out | ios :: app);
-
+ifstream f1(inFile1.c_str());
+ifstream f2(inFile2.c_str());
+ofstream f3("mergeFile1.txt", ios :: app);
+ofstream f4("mergeFilePL1.bin", ios :: binary | ios :: app);
 
 
-
-    while(f1 || f2)
+    string line1,line2,copie1,copie2,postL1,postL2;
+    while (f1 || f2)
     {
-        if(f1 && f2)
-
+        while (getline(f1,line1) && getline(f2,line2))
         {
 
-            getline(f1,line1);
 
-            getline(f2,line2);
 
-            vocab1 = getVocab(line1);
 
-            vocab2 = getVocab(line2);
+            copie1 = getVocab(line1);
+            postL1 = getPosting(line1);
 
-            if(vocab1.compare(vocab2)<0)
-            {
+            copie2 = getVocab(line2);
+            postL2 = getPosting(line2);
 
-                f3 << vocab1<<endl;
-                getline(f1,line1);
-                vocab1 = getVocab(line1);
 
-            }
-            else
-            {
 
-                f3 << vocab2 <<endl;
-                getline(f2,line2);
-                vocab2 = getVocab(line2);
+    if (copie1.compare(copie2)<0)
+       {
 
-            }
 
-        }
-        else
-        {
 
-            while(f1)
-            {
-                f3 <<vocab1<<endl;
-                getline(f1,line1);
-                vocab1 = getVocab(line1);
-            }
-            while(f2)
-            {
-                f3 <<vocab2<<endl;
-                getline(f2,line2);
-                vocab2 = getVocab(line2);
-            }
+     f3 << copie1<<endl;
+     f3 << copie2<<endl;
+     f4 << postL1<<endl;
+     f4 << postL2<<endl;
+
+
+
+
+      }
+    else
+    {
+
+     f3 << copie2<<endl ;
+     f3 << copie1<<endl;
+     f4 << postL2<<endl;
+     f4 << postL1<<endl;
+    }
+
 
         }
+
+
+
+while(f1 || f2)
+{
+
+    while(getline(f2,line2))
+    {
+    copie2 = getVocab(line2);f3 << copie2<<endl ;
+    postL2 = getPosting(line2);f4 << postL2<<endl;
 
     }
 
+   while(getline(f1,line1))
+    {
+
+    copie1 = getVocab(line1);f3 << copie1<<endl;
+    postL1 = getPosting(line1);f4 << postL1<<endl;
+
+
+    }
 }
+
+}
+
+
+
+
+
+
+}
+
