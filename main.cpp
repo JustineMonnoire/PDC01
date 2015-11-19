@@ -10,8 +10,6 @@
 #include <map>
 #include <cstddef>
 #include <algorithm>
-#include <stdio.h>
-#include <stdlib.h>
 
 #define MAX_TO_CREATE_FILE 10000
 
