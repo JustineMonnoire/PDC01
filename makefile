@@ -1,5 +1,12 @@
-all: 
-	g++ -std=c++11 -Ilibs/boost_1.59.0/ main.cpp parser.cpp avlTreePosting.cpp utils.cpp  -o mainApp
+all: parser merge
+
+parser: 
+	test -d memoryDumps || mkdir memoryDumps
+	g++ -std=c++11 -Ilibs/boost_1.59.0/ main.cpp parser.cpp avlTreePosting.cpp utils.cpp  -o parser
+
+merge:
+	test -d merged || mkdir merged
+	g++ -std=c++11 merge.cpp -o merge
 	
 clean: 
-	rm *.o mainApp
+	rm *.o mainApp memoryDumps/*

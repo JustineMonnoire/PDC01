@@ -27,3 +27,5 @@
 *.out
 *.app
 nbproject
+memoryDumps
+merged

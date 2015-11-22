@@ -11,7 +11,7 @@
 #include <cstddef>
 #include <algorithm>
 
-#define MAX_TO_CREATE_FILE 10000
+#define MAX_TO_CREATE_FILE 1000000
 
 using namespace std;
 
@@ -31,6 +31,7 @@ int main( int argc, const char* argv[] )
 	struct dirent *lecture;
 				vector<int> docIdVector;
 				std::map<string, vector<int> >::iterator it;
+	int i = 0;
 	while ((lecture = readdir(rep))) {
         int codeErreur =parser.openFile(dossier+"/"+lecture->d_name);
         if(strcmp(lecture->d_name,".")!=0 and strcmp(lecture->d_name,"..")!=0){
@@ -38,14 +39,10 @@ int main( int argc, const char* argv[] )
 				// file successfully read
 				cout << "reading "<< lecture->d_name <<endl;
 				Parser::Token tok = parser.getNextToken();
-				int i = 0;
-				while(true)
+				
+				while(tok.docId != -1 )
 				{
-					if(tok.docId == -1)
-					{
-						writeFileWithMap(wordPostingListMap);
-						break;
-					}
+					
 
 					if(i == MAX_TO_CREATE_FILE)
 					{
@@ -108,6 +105,7 @@ int main( int argc, const char* argv[] )
 				}*/
 	//cout << "avl to file " << filenamePrefix + std::to_string(nbDump) + ".txt" <<endl;
 	//avl.inorder(avl.root, filenamePrefix + std::to_string(nbDump) + ".txt");
+	writeFileWithMap(wordPostingListMap);
 	return 0;
 }
 
@@ -115,8 +113,9 @@ void writeFileWithMap(std::map<string, vector<int>> map)
 {
 
 	ofstream myfile;
-	string fileName = std::string("invertedFile") + std::to_string(iFiles) + std::string(".txt");
-	myfile.open(fileName, ios::trunc);
+	string fileName = std::string("memoryDumps/invertedFile") + std::to_string(iFiles) + std::string(".txt");
+	cout << "dumping memory to " << fileName << endl;
+	myfile.open(fileName, ios::in | ios::trunc);
 
 	std::map<string, vector<int> >::iterator it;
 	it = map.begin();
@@ -135,6 +134,5 @@ void writeFileWithMap(std::map<string, vector<int>> map)
 		++it;
 	}
 	myfile.close();
-
 	iFiles++;
 }
