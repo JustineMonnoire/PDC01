@@ -46,7 +46,7 @@ void interactiveMode(map<string, int> vocab){
 		
 		set<int> results = search(words, vocab);
 		for(int result : results){
-			cout<<result<<";";
+			cout<<result<<" - ";
 		}
 		cout<<endl;
 		}
@@ -58,20 +58,43 @@ void interactiveMode(map<string, int> vocab){
  * return docIds
  */
 set<int> search(set<string> words, map<string, int> vocab, string postingListFile){
+	set<int> offsets;
 	cout<<" -- trace - words searched :"<< endl;
 	for(string word: words){ 
 		map<string, int>::iterator it = vocab.find(word);
 		if(it != vocab.end()){
-			cout<<word<<" - offset : "<<it->second<<endl;
+			offsets.insert(it->second);
 		}else{
 			cout<<word<<" not found"<<endl;
-		}
-		
-		
+		}		
 	}
 	set<int> results;
-	results.insert(1);
-	results.insert(5);
+	
+	ifstream plFile;
+	int numberOfLineRead = 0;
+	plFile.open(postingListFile);
+	if (plFile.is_open())
+	{
+		
+		for(int offset : offsets){
+			//get postinglist
+			string sPostingList;
+			for(int i = numberOfLineRead ; i < offset; i++){
+				getline (plFile,sPostingList);
+				++numberOfLineRead;
+			}
+			//parse postinglist
+			string sdocId;
+			std::stringstream ss(sPostingList);
+
+			while (getline(ss,sdocId, ';'))
+			{
+				if(!sdocId.empty()) results.insert(stoi(sdocId));
+			}		
+		
+		}
+		plFile.close();
+	}
 	return results;
 }
 
