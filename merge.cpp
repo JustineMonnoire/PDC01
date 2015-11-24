@@ -19,7 +19,7 @@ struct PLread{
 vector<ifstream*> files;
 ofstream outputVocab("merged/vocab.txt", ios::in | ios::trunc);
 ofstream outputPl("merged/postingLists.txt", ios::in | ios::trunc);
-int plOffset = 0;
+int plOffset = 1;
 void writePLandWordToFile(string word, set<int> docIds);
 void readOneTokenFromFiles(vector<ifstream*> &filesToRead, multimap<string, PLread> &tokensRead);
 

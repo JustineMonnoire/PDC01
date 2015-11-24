@@ -4,6 +4,7 @@
 #include <set>
 #include <sstream>
 #include <map>
+#include <algorithm> 
 
 using namespace std;
 
@@ -45,8 +46,12 @@ void interactiveMode(map<string, int> vocab){
 		if(words.empty()) return;
 		
 		set<int> results = search(words, vocab);
-		for(int result : results){
-			cout<<result<<" - ";
+		if(results.empty()){
+			cout<<"no docs founds";
+		}else{
+			for(int result : results){
+				cout<<result<<" - ";
+			}
 		}
 		cout<<endl;
 		}
@@ -59,10 +64,10 @@ void interactiveMode(map<string, int> vocab){
  */
 set<int> search(set<string> words, map<string, int> vocab, string postingListFile){
 	set<int> offsets;
-	cout<<" -- trace - words searched :"<< endl;
 	for(string word: words){ 
 		map<string, int>::iterator it = vocab.find(word);
 		if(it != vocab.end()){
+			
 			offsets.insert(it->second);
 		}else{
 			cout<<word<<" not found"<<endl;
@@ -86,12 +91,19 @@ set<int> search(set<string> words, map<string, int> vocab, string postingListFil
 			//parse postinglist
 			string sdocId;
 			std::stringstream ss(sPostingList);
-
+			set<int> docIdset;
 			while (getline(ss,sdocId, ';'))
 			{
-				if(!sdocId.empty()) results.insert(stoi(sdocId));
+				if(!sdocId.empty()) docIdset.insert(stoi(sdocId));
 			}		
-		
+			if(results.empty()){
+				results = docIdset;
+			}else{
+				set<int> intersection;
+				set_intersection(results.begin(),results.end(),docIdset.begin(),docIdset.end(),
+					  std::inserter(intersection,intersection.begin()));
+				results = intersection;
+			}
 		}
 		plFile.close();
 	}
