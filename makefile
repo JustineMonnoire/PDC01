@@ -1,4 +1,4 @@
-all: parser merge
+all: parser merge query
 
 parser: 
 	test -d memoryDumps || mkdir memoryDumps
@@ -7,6 +7,9 @@ parser:
 merge:
 	test -d merged || mkdir merged
 	g++ -std=c++11 merge.cpp -o merge
+	
+query:
+	g++ -std=c++11 query.cpp -o query	
 	
 clean: 
 	rm *.o mainApp memoryDumps/*
